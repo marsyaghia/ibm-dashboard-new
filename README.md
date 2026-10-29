@@ -48,7 +48,7 @@ Ada dua cara membuka dashboard:
 |---|---|
 | **Beranda** | Sapaan sesuai akun yang login, jam dan tanggal real-time WIB (Malang), kalender bulanan berisi kegiatan akademik (UTS/UAS/libur) dengan agenda kelas per tanggal, **pengingat data yang belum lengkap** (lengkap dengan tombol ke menunya), dan rekap setiap menu |
 | **Pengeluaran Divisi** | Transaksi beserta bukti. Tab **Laporan** merekap pengeluaran per kategori, per batch, dan per bulan, termasuk pembayaran Trent yang sudah lunas. Bisa diekspor ke Excel/CSV dan dicetak/PDF |
-| **Perolehan Mahasiswa** | Jenis pembayaran: **Daftar Ulang, DPP, UKT/SPP**. Tab **Rekapitulasi** berisi grafik per batch × jenis dan tabel rekap (jumlah mahasiswa yang sudah membayar dibanding mahasiswa aktif), serta ekspor Excel |
+| **Perolehan Mahasiswa** | Satu baris per mahasiswa: **Batch, NIM, Nama, DU, DPP, UKT per semester** (format sheet "Biaya Batch 1 sd 4", bisa diimpor langsung). Tab **Rekapitulasi** berisi grafik dan tabel total per batch, serta ekspor Excel |
 | **RPS & OBE** | Tab **Template RPS & OBE** menampilkan semua mata kuliah kurikulum beserta link draft/template RPS dan OBE masing-masing. Tab **Penilaian OBE** berisi daftar per periode dan batch (diambil dari jadwal). Tim IBM mengisi mata kuliah **Dosen External**, sedangkan dosen internal mengisi sendiri; statusnya tetap bisa dicatat |
 | **Materi & PPT Dosen** | Link folder PPT, progres pertemuan, status, dan daftar dosen yang perlu ditagih |
 | **Jadwal Kuliah** | Urutan tab: **Jadwal Full** (seluruh pertemuan satu semester, dikelompokkan per minggu), **Weekly** (grid jam × Senin–Sabtu dengan navigasi minggu dan tanda UTS/UAS/libur), **Daily** (kelas per tanggal dan absensi cepat Dosen External). Ada juga bagian kelas **tanpa hari/jam tetap**, tab **Slot jadwal**, dan tab **Kalender akademik** (format PDF akademik: Semester, Tahun Ajaran, Jenis Kegiatan, tanggal "… s.d. …") |
@@ -58,7 +58,7 @@ Ada dua cara membuka dashboard:
 | **Sertifikat Mahasiswa** | Matriks per batch dan daftar sertifikat |
 | **Biodata Mahasiswa** | Mengikuti Formulir Pendataan Mahasiswa. Bisa mencetak formulir yang sudah terisi maupun formulir kosong |
 | **Biodata Dosen** | Dosen Internal dan Dosen External. Bisa diimpor dari Google Form Data Dosen |
-| **Pengaturan** | **Umum** (profil divisi, penandatangan formulir, jumlah pertemuan, tarif & GST Trent), **Daftar pilihan** (kategori pengeluaran, jenis pemasukan, metode bayar, jenis sertifikat, kategori immersion, ruang), **Batch**, **Kurikulum**, **Akun superadmin** (daftar akses dan ganti kata sandi), serta **Data & impor** (template CSV per tabel Supabase, unduh data CSV, cadangan JSON, semua data ke Excel) |
+| **Pengaturan** | **Umum** (profil divisi, penandatangan formulir, jumlah pertemuan, tarif & GST Trent), **Daftar pilihan** (kategori pengeluaran, metode bayar, jenis sertifikat, kategori immersion, ruang), **Batch**, **Kurikulum**, **Akun superadmin** (daftar akses dan ganti kata sandi), serta **Data & impor** (template CSV per tabel Supabase, unduh data CSV, cadangan JSON, semua data ke Excel) |
 
 Semua tabel mendukung pencarian, filter, urut kolom, ekspor Excel/CSV, dan impor Excel/CSV. Saat impor, kolom dicocokkan otomatis: nama kolom Google Sheets maupun nama kolom database Supabase dikenali.
 

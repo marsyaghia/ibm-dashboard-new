@@ -17,20 +17,11 @@ export function demoExtras(seed) {
   const byBatch = (b) => studs.filter(x => x.batch_id === b);
   const angk = { B1: 2023, B2: 2024, B3: 2025, B4: 2026 };
 
-  // Perolehan mahasiswa: Daftar Ulang, DPP, UKT/SPP
-  const incomes = [];
-  for (const st of studs) {
-    const y = angk[st.batch_id] || 2026;
-    const ref = { student_id: st.id, nim: st.nim || '', nama_mahasiswa: st.nama, batch_id: st.batch_id, metode: pick(['Transfer Bank', 'Virtual Account']), catatan: DEMO };
-    incomes.push({ id: id('inc'), ...ref, tanggal: iso(y, 8, 1 + Math.floor(rnd() * 20)), jenis: 'Daftar Ulang', semester: 1, jumlah: 2500000, status: 'Lunas' });
-    if (rnd() > .15) incomes.push({ id: id('inc'), ...ref, tanggal: iso(y, 8, 10 + Math.floor(rnd() * 18)), jenis: 'DPP', semester: 1, jumlah: rnd() > .3 ? 15000000 : 7500000, status: rnd() > .3 ? 'Lunas' : 'Cicilan' });
-    const sems = Math.min(8, (2026 - y) * 2 + 1);
-    for (let k = 1; k <= sems; k++) {
-      const yy = y + Math.floor(k / 2); const mm = k % 2 ? 9 : 2;
-      if (yy > 2026 || (yy === 2026 && mm > 10)) break;
-      incomes.push({ id: id('inc'), ...ref, tanggal: iso(yy, mm, 1 + Math.floor(rnd() * 25)), jenis: 'UKT/SPP', semester: k, jumlah: 6500000, status: k === sems && rnd() > .7 ? 'Belum Lunas' : 'Lunas' });
-    }
-  }
+  // Perolehan mahasiswa: satu baris per mahasiswa (DU, DPP, UKT per semester), nominal fiktif
+  const incomes = studs.map(st => ({
+    id: id('inc'), batch_id: st.batch_id, nim: st.nim || '', nama_mahasiswa: st.nama,
+    du: pick([700000, 1100000, 1700000, 2750000, 5000000]), dpp: pick([0, 6500000, 9000000, 12250000]), ukt_per_semester: pick([4900000, 5900000, 6900000, 7750000, 9900000]),
+  }));
 
   // Pengeluaran divisi
   const E = (tanggal, kategori, uraian, jumlah, status = 'Lunas', batch_id = '') => ({ id: id('exp'), tanggal, kategori, uraian, jumlah, status, batch_id, penerima: '', metode: 'Transfer Bank', catatan: DEMO });

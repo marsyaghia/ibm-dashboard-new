@@ -27,7 +27,8 @@ export const flatFields = (sections) => sections.flatMap(s => s.fields);
  *   kpis(rows, allRows) → [{ label, value, sub, icon, accent, meter }],
  *   above(rows, allRows) → Node, rowsFilter(rows) → rows, exportName,
  *   extraActions(ctx) → [Node], drawerFooter(rec, close) → [Node],
- *   beforeSave(rec) → rec, aliases, importNote, pageSize, groupBy, footer
+ *   beforeSave(rec) → rec, aliases, importNote, pageSize, groupBy, footer,
+ *   importSection: key field yang diisi dari baris judul di berkas impor (mis. "BATCH 1 / 2023" → batch_id)
  * }
  */
 export function crudView(cfg) {
@@ -120,7 +121,7 @@ export function crudView(cfg) {
       h('div', {}, cfg.eyebrow ? h('span', { class: 'eyebrow' }, cfg.eyebrow) : null, h('h1', {}, cfg.title), cfg.description ? h('p', {}, cfg.description) : null),
       h('div', { class: 'actions no-print' },
         ...(cfg.extraActions ? cfg.extraActions(ctx) : []),
-        cfg.importable === false ? null : h('button', { class: 'btn btn-ghost', type: 'button', onclick: () => importDialog({ title: cfg.title, fields: [...fields, ...(cfg.importExtra || []), ...schemaExtras(cfg.collection, [...fields, ...(cfg.importExtra || [])])], aliases: cfg.aliases, note: cfg.importNote, onImport: (recs) => importRecords(recs) }) }, icon('upload'), 'Impor'),
+        cfg.importable === false ? null : h('button', { class: 'btn btn-ghost', type: 'button', onclick: () => importDialog({ title: cfg.title, fields: [...fields, ...(cfg.importExtra || []), ...schemaExtras(cfg.collection, [...fields, ...(cfg.importExtra || [])])], aliases: cfg.aliases, note: cfg.importNote, sectionKey: cfg.importSection, onImport: (recs) => importRecords(recs) }) }, icon('upload'), 'Impor'),
         exportMenu,
         cfg.addable === false ? null : h('button', { class: 'btn btn-primary', type: 'button', onclick: () => openForm(null) }, icon('plus'), cfg.addLabel || `Tambah ${cfg.noun || ''}`.trim()),
       ));

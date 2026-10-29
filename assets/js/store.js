@@ -39,7 +39,7 @@ async function idbDo(mode, fn) {
 
 /* ---------- Mode demo ---------- */
 class DemoAdapter {
-  constructor() { this.mode = 'demo'; this.data = {}; this.key = 'ibm_dash_demo_v3'; this.profile = { email: 'demo@ibmasia.ac.id', nama: 'Mode Demo', sapaan: 'Tim IBM', peran: 'superadmin' }; }
+  constructor() { this.mode = 'demo'; this.data = {}; this.key = 'ibm_dash_demo_v4'; this.profile = { email: 'demo@ibmasia.ac.id', nama: 'Mode Demo', sapaan: 'Tim IBM', peran: 'superadmin' }; }
   async connect() { return this.profile; }
   async init() {
     try { this.data = JSON.parse(localStorage.getItem(this.key) || '{}'); } catch (e) { this.data = {}; }

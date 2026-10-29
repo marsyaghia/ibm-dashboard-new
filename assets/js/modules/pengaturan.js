@@ -53,8 +53,7 @@ function umum(root) {
 /* =================== Daftar pilihan =================== */
 const LISTS = [
   ['kategori_pengeluaran', 'Kategori pengeluaran', 'Pengeluaran Divisi'],
-  ['jenis_pemasukan', 'Jenis pemasukan mahasiswa', 'Perolehan Mahasiswa'],
-  ['metode_bayar', 'Metode pembayaran', 'Pengeluaran, Perolehan, Immersion'],
+  ['metode_bayar', 'Metode pembayaran', 'Pengeluaran, Immersion'],
   ['jenis_sertifikat', 'Jenis sertifikat', 'Sertifikat Mahasiswa'],
   ['kategori_immersion', 'Kategori pengeluaran immersion', 'Immersion'],
   ['ruang', 'Ruang kelas', 'Jadwal Kuliah'],

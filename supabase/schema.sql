@@ -146,29 +146,20 @@ comment on column public.pengeluaran.jumlah is 'angka tanpa titik, mis. 1750000'
 comment on column public.pengeluaran.status is 'Lunas / Menunggu Pembayaran / Diajukan (Reimburse) / Dibatalkan';
 comment on column public.pengeluaran.batch_id is 'B1, B2 … (kosong = umum)';
 
--- Perolehan Mahasiswa: Pembayaran mahasiswa: Daftar Ulang, DPP, UKT/SPP.
+-- Perolehan Mahasiswa: Biaya per mahasiswa: DU, DPP, dan UKT per semester.
 create table if not exists public.pemasukan (
   id text primary key default gen_random_uuid()::text,
-  tanggal date,
   batch_id text,
-  student_id text,
   nim text,
   nama_mahasiswa text,
-  jenis text,
-  semester integer,
-  jumlah numeric,
-  status text,
-  metode text,
-  no_bukti text,
-  bukti_label text,
-  bukti_link text,
-  bukti_file jsonb,
-  catatan text,
+  du numeric,
+  dpp numeric,
+  ukt_per_semester numeric,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
   updated_by text
 );
-comment on table public.pemasukan is 'Perolehan Mahasiswa — Pembayaran mahasiswa: Daftar Ulang, DPP, UKT/SPP.';
+comment on table public.pemasukan is 'Perolehan Mahasiswa — Biaya per mahasiswa: DU, DPP, dan UKT per semester.';
 alter table public.pemasukan enable row level security;
 drop policy if exists "pemasukan_superadmin" on public.pemasukan;
 create policy "pemasukan_superadmin" on public.pemasukan
@@ -176,14 +167,12 @@ create policy "pemasukan_superadmin" on public.pemasukan
 drop trigger if exists pemasukan_updated on public.pemasukan;
 create trigger pemasukan_updated before insert or update on public.pemasukan
   for each row execute function public.set_updated_at();
-create index if not exists pemasukan_tanggal_idx on public.pemasukan (tanggal);
 create index if not exists pemasukan_batch_id_idx on public.pemasukan (batch_id);
-create index if not exists pemasukan_student_id_idx on public.pemasukan (student_id);
 create index if not exists pemasukan_nim_idx on public.pemasukan (nim);
 comment on column public.pemasukan.batch_id is 'B1, B2 …';
-comment on column public.pemasukan.student_id is 'id mahasiswa (opsional bila nim/nama diisi)';
-comment on column public.pemasukan.jenis is 'Daftar Ulang / DPP / UKT/SPP';
-comment on column public.pemasukan.status is 'Lunas / Cicilan / Belum Lunas / Dibatalkan';
+comment on column public.pemasukan.du is 'DU / Daftar Ulang (Rp), angka tanpa titik';
+comment on column public.pemasukan.dpp is 'DPP (Rp), angka tanpa titik';
+comment on column public.pemasukan.ukt_per_semester is 'UKT per semester (Rp), angka tanpa titik';
 
 -- RPS & OBE: Draft/template RPS dan OBE untuk setiap mata kuliah.
 create table if not exists public.rps_obe_template (

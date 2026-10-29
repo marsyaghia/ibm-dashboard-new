@@ -40,7 +40,6 @@ export const CONFIG = {
     },
     daftar: {
       kategori_pengeluaran: ['Honor Dosen & Praktisi', 'Pembayaran Trent Global College', 'Kegiatan & Event', 'Immersion / Kunjungan Industri', 'Sertifikasi & Pelatihan', 'Promosi & Marketing', 'Konsumsi & Rapat', 'Transportasi & Akomodasi', 'ATK & Perlengkapan', 'Langganan & Software', 'Lain-lain'],
-      jenis_pemasukan: ['Daftar Ulang', 'DPP', 'UKT/SPP'],
       metode_bayar: ['Transfer Bank', 'Virtual Account', 'Tunai', 'QRIS / E-wallet', 'Lainnya'],
       jenis_sertifikat: ['Trent Global College', 'English Score Test', 'Altissia English Course', 'Public Speaking (Carabicara)', 'Immersion Study', 'Magang / Internship', 'Club / Workshop IBM', 'Kompetisi / Lomba', 'Lainnya'],
       kategori_immersion: ['Tiket Pesawat', 'Akomodasi', 'Visa & Dokumen', 'Asuransi', 'Transportasi Lokal', 'Konsumsi', 'Kunjungan Industri / Kampus', 'Lainnya'],

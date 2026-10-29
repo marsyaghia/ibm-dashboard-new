@@ -97,8 +97,10 @@ function convert(f, v) {
 /**
  * Dialog impor. fields: definisi field form (datar). aliases: { key: ['Header lain', ...] }
  * onImport(records) → Promise
+ * sectionKey: baris yang hanya berisi satu sel (mis. "BATCH 1 / 2023") menjadi nilai field ini
+ *   untuk baris-baris di bawahnya. Judul kolom yang berulang dan baris tanpa field wajib dilewati.
  */
-export function importDialog({ title, fields, aliases = {}, onImport, note }) {
+export function importDialog({ title, fields, aliases = {}, onImport, note, sectionKey }) {
   const flat = fields.filter(f => f.type !== 'readonly');
   const body = h('div', { class: 'stack' });
   const fileIn = h('input', { type: 'file', accept: '.xlsx,.csv,.tsv,.txt', class: 'input', style: { paddingTop: '6px' } });
@@ -157,15 +159,31 @@ export function importDialog({ title, fields, aliases = {}, onImport, note }) {
 
   importBtn.addEventListener('click', async () => {
     const rows = sheets[sheetIdx].rows.slice(headerRow + 1);
+    const secField = sectionKey && flat.find(f => f.key === sectionKey);
+    const headKey = (r) => (r || []).map(norm).join('|');
+    const reqMapped = flat.filter(f => f.required && mapping.includes(f.key)).map(f => f.key);
+    let section = '';
+    if (secField) { // judul bagian sebelum baris judul kolom, mis. "BATCH 1 / 2023"
+      for (const r of sheets[sheetIdx].rows.slice(0, headerRow)) { const cells = r.filter(v => String(v ?? '').trim()); if (cells.length === 1) section = convert(secField, cells[0]) || section; }
+    }
     const recs = rows.map(r => {
+      if (secField) {
+        const cells = r.filter(v => String(v ?? '').trim());
+        if (cells.length === 1) { const v = convert(secField, cells[0]); if (v) { section = v; return null; } }
+        if (headKey(r) === headKey(sheets[sheetIdx].rows[headerRow])) return null;
+      }
       const rec = {};
       mapping.forEach((key, i) => {
         if (!key) return; const f = flat.find(x => x.key === key); const v = convert(f, r[i]);
         if (v !== '' && v !== null && !(Array.isArray(v) && !v.length)) rec[key] = v;
         else if (f.type === 'student' && String(r[i] ?? '').trim()) { const raw = String(r[i]).trim(); if (/^\d{5,}$/.test(raw)) rec.nim = raw; else rec.nama_mahasiswa = raw; }
       });
+      if (secField) {
+        if (reqMapped.length && !reqMapped.some(k => rec[k] !== undefined)) return null; // mis. baris total
+        if (section && !rec[sectionKey]) rec[sectionKey] = section;
+      }
       return rec;
-    }).filter(r => Object.keys(r).length);
+    }).filter(r => r && Object.keys(r).length);
     if (!recs.length) return toast('Tidak ada baris yang bisa diimpor.', 'bad');
     importBtn.disabled = true; importBtn.textContent = 'Mengimpor…';
     try { await onImport(recs); toast(`${recs.length} baris berhasil diimpor.`, 'ok'); close(); }

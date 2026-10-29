@@ -22,7 +22,7 @@ Panduan singkat untuk revisi lewat ekstensi Claude di VS Code.
   2. jalankan `node tools/build-supabase.mjs`;
   3. jalankan `alter table … add column …` di Supabase SQL Editor;
   4. tambahkan field di `sections` modul terkait.
-- Daftar dropdown operasional (kategori, jenis pemasukan, metode, ruang, …) diambil dari `store.list('…')`. Nilai awalnya ada di `config.js → defaults.daftar`, dan bisa diubah di menu Pengaturan.
+- Daftar dropdown operasional (kategori, metode, ruang, …) diambil dari `store.list('…')`. Nilai awalnya ada di `config.js → defaults.daftar`, dan bisa diubah di menu Pengaturan.
 
 ## Modul (`assets/js/modules/`)
 

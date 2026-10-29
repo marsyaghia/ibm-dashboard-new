@@ -26,10 +26,9 @@ export const SCHEMA = {
     ['tanggal', 'date', 'YYYY-MM-DD'], ['kategori'], ['uraian'], ['jumlah', 'num', 'angka tanpa titik, mis. 1750000'], ['status', 'text', 'Lunas / Menunggu Pembayaran / Diajukan (Reimburse) / Dibatalkan'],
     ['penerima'], ['metode'], ['batch_id', 'text', 'B1, B2 … (kosong = umum)'], ['no_bukti'], ['bukti', 'att'], ['catatan'],
   ]),
-  incomes: T('pemasukan', 'Perolehan Mahasiswa', 'Pembayaran mahasiswa: Daftar Ulang, DPP, UKT/SPP.', [
-    ['tanggal', 'date'], ['batch_id', 'text', 'B1, B2 …'], ['student_id', 'text', 'id mahasiswa (opsional bila nim/nama diisi)'], ['nim'], ['nama_mahasiswa'],
-    ['jenis', 'text', 'Daftar Ulang / DPP / UKT/SPP'], ['semester', 'int'], ['jumlah', 'num'], ['status', 'text', 'Lunas / Cicilan / Belum Lunas / Dibatalkan'],
-    ['metode'], ['no_bukti'], ['bukti', 'att'], ['catatan'],
+  incomes: T('pemasukan', 'Perolehan Mahasiswa', 'Biaya per mahasiswa: DU, DPP, dan UKT per semester.', [
+    ['batch_id', 'text', 'B1, B2 …'], ['nim'], ['nama_mahasiswa'],
+    ['du', 'num', 'DU / Daftar Ulang (Rp), angka tanpa titik'], ['dpp', 'num', 'DPP (Rp), angka tanpa titik'], ['ukt_per_semester', 'num', 'UKT per semester (Rp), angka tanpa titik'],
   ]),
   rpsTemplates: T('rps_obe_template', 'RPS & OBE', 'Draft/template RPS dan OBE untuk setiap mata kuliah.', [
     ['course_id', 'text', 'id kurikulum (opsional bila kode_mk/mata_kuliah diisi)'], ['kode_mk'], ['mata_kuliah'], ['semester', 'int'], ['versi', 'text', 'mis. OBE 2024'],

@@ -11,7 +11,6 @@ import { tipeDosen } from './dosen.js';
 import { batchProgress, targetOf } from './immersion.js';
 
 const yearOf = (d) => String(d || '').slice(0, 4);
-const validInc = (rows) => rows.filter(r => r.status !== 'Dibatalkan' && r.status !== 'Belum Lunas');
 const noProof = (r) => !hasAttachment(r.bukti);
 const DOT = { UTS: 'uts', UAS: 'uas', Libur: 'libur', Lainnya: 'lain' };
 
@@ -47,8 +46,6 @@ function reminders() {
   // Keuangan
   add('warn', 'Pengeluaran tanpa bukti', 'Transaksi pengeluaran yang belum dilampiri kwitansi/bukti.', 'pengeluaran', store.all('expenses').filter(r => r.status !== 'Dibatalkan' && noProof(r)).length);
   add('info', 'Pengeluaran menunggu pembayaran', 'Status “Menunggu Pembayaran” atau “Diajukan (Reimburse)”.', 'pengeluaran', store.all('expenses').filter(r => /menunggu|diajukan/i.test(r.status || '')).length);
-  add('warn', 'Pembayaran mahasiswa tanpa bukti', 'Daftar Ulang / DPP / UKT yang belum dilampiri bukti.', 'pemasukan', store.all('incomes').filter(r => r.status !== 'Dibatalkan' && noProof(r)).length);
-  add('info', 'Pembayaran mahasiswa belum lunas', 'Status “Cicilan” atau “Belum Lunas”.', 'pemasukan', store.all('incomes').filter(r => r.status === 'Cicilan' || r.status === 'Belum Lunas').length);
 
   // Trent
   const tp = store.all('trentPayments');
@@ -129,7 +126,7 @@ function dayAgenda(box, iso) {
 function moduleCards() {
   const y = String(nowWIB().getFullYear()); const periode = currentPeriode(); const t = today();
   const exp = store.all('expenses').filter(r => r.status !== 'Dibatalkan' && yearOf(r.tanggal) === y);
-  const inc = validInc(store.all('incomes')).filter(r => yearOf(r.tanggal) === y);
+  const inc = store.all('incomes');
   const courses = store.all('courses'); const tpl = store.all('rpsTemplates');
   const tplOk = courses.filter(c => tpl.some(x => (x.course_id === c.id || x.kode_mk === c.kode) && hasAttachment(x.template_rps))).length;
   const mats = store.all('materials'); const matOk = mats.filter(m => m.status === 'Lengkap').length;
@@ -146,7 +143,7 @@ function moduleCards() {
     meter !== undefined ? h('div', { class: 'meter ok', role: 'meter', 'aria-valuenow': meter, 'aria-valuemin': 0, 'aria-valuemax': 100, 'aria-label': label }, h('i', { style: { width: `${Math.min(100, meter)}%` } })) : null);
   return h('div', { class: 'module-grid' },
     card('pengeluaran', 'expense', 'Pengeluaran Divisi', fmtIDRShort(sum(exp, 'jumlah')), `${exp.length} transaksi tahun ${y}`),
-    card('pemasukan', 'income', 'Perolehan Mahasiswa', fmtIDRShort(sum(inc, 'jumlah')), `${inc.length} pembayaran tahun ${y}`),
+    card('pemasukan', 'income', 'Perolehan Mahasiswa', `${inc.length} mahasiswa`, `UKT ${fmtIDRShort(sum(inc, 'ukt_per_semester'))} per semester`),
     card('rps', 'book', 'RPS & OBE', `${tplOk} / ${courses.length}`, 'template RPS tersedia', pct(tplOk, courses.length)),
     card('materi', 'slides', 'Materi & PPT', `${pct(matOk, mats.length)}%`, `${matOk} dari ${mats.length} materi lengkap`, pct(matOk, mats.length)),
     card('jadwal', 'calendar', 'Jadwal Kuliah', `${fixed.length} kelas`, `${periode} · ${slots.length - fixed.length} tanpa hari tetap`),
